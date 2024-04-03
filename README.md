@@ -12,7 +12,8 @@ host: <%= ENV['DB_HOST'] %>
 ```
 ,
   "scripts": {
-    "build:js": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds"
+    "build:js": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
+    "build": "yarn build:js"
   }
 ```
 7. `Procfile.dev` を修正
@@ -25,3 +26,22 @@ js: yarn build:js --watch
 10. `docker compose stop postgres` を実行
 11. `docker compose up` で起動
 12. http://localhost:3000/ にアクセスしてページが表示されれば完了
+
+
+---
+
+
+## tailwindを使用する場合の package.json と Procfile.dev の例
+```json:package.json
+"scripts": {
+  "build:js": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
+  "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css",
+  "build": "yarn build:js && yarn build:css"
+}
+```
+
+```Procfile.dev
+web: bin/rails server -b 0.0.0.0 -p 3000
+js: yarn build:js --watch
+css: yarn build:css --watch
+```
