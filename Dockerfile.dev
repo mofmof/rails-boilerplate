@@ -1,15 +1,5 @@
-#Node.js & Yarn
-FROM node:20.12.0-alpine as node
-
-RUN apk add --no-cache bash curl && \
-    curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.19
-
-#Ruby & Bundler & postgresql-client
 FROM ruby:3.3.0-alpine
 
-COPY --from=node /usr/local/bin/node /usr/local/bin/node
-COPY --from=node /opt/yarn-* /opt/yarn
-RUN ln -fs /opt/yarn/bin/yarn /usr/local/bin/yarn
 RUN apk add --no-cache git build-base libxml2-dev libxslt-dev postgresql-dev postgresql-client tzdata bash vim && \
     cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
