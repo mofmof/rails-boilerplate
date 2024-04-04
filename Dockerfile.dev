@@ -6,6 +6,8 @@ RUN apk add --no-cache bash curl && \
 FROM ruby:3.3.0-alpine
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/node
+COPY --from=node /usr/local/bin/npm /usr/local/bin/npm
+COPY --from=node /usr/local/bin/npx /usr/local/bin/npx
 COPY --from=node /opt/yarn-* /opt/yarn
 RUN ln -fs /opt/yarn/bin/yarn /usr/local/bin/yarn
 RUN apk add --no-cache git build-base libxml2-dev libxslt-dev postgresql-dev postgresql-client tzdata bash vim && \
