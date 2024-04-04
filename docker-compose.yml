@@ -1,0 +1,41 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: "Dockerfile.dev"
+    stdin_open: true
+    tty: true
+    ports:
+      - 3000:3000
+    command: /bin/sh -c "bundle install && yarn install && rm -f tmp/pids/server.pid && bin/dev"
+    environment:
+      DB_USER: root
+      DB_PASS: mysql
+      DB_HOST: mysql
+    depends_on:
+      - mysql
+    volumes:
+      - .:/app:delegated
+      - node-modules:/app/node_modules:delegated
+      - bundle-data:/usr/local/bundle:delegated
+
+  mysql:
+    image: mysql:8.3
+    stdin_open: true
+    tty: true
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
+      TZ: Asia/Tokyo
+    volumes:
+      - mysql-data:/var/lib/mysql:cached
+
+volumes:
+  mysql-data:
+  bundle-data:
+  node-modules:
