@@ -1,7 +1,7 @@
 # 初期設定
 1. `docker compose build` を実行
 2. `docker compose run --rm app gem install rails` を実行
-3. `docker compose run --rm app rails new . -d mysql -j esbuild` を実行
+3. `docker compose run --rm app rails new . -d mysql` を実行
 4. `config/database.yml` の `default` 内に以下を追記
 ```
 username: <%= ENV['DB_USER'] %>
