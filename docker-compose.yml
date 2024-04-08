@@ -10,7 +10,7 @@ services:
       - 3000:3000
     command: /bin/sh -c "bundle install && yarn install && rm -f tmp/pids/server.pid && bin/dev"
     environment:
-      DB_USER: root
+      DB_USER: mysql
       DB_PASS: mysql
       DB_HOST: mysql
     depends_on:
@@ -28,11 +28,12 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_RANDOM_ROOT_PASSWORD: true
       MYSQL_USER: mysql
       MYSQL_PASSWORD: mysql
       TZ: Asia/Tokyo
     volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - mysql-data:/var/lib/mysql:cached
 
 volumes:
